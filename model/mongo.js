@@ -18,19 +18,29 @@ var UserSchema = new mongoSchema({
     LockID: {
       type: String,
       required: false
-    }
+    },
+    firstname: {
+        type: String,
+    },
+     updated: { type: Date,
+        default: Date.now
+      }
 });
 
-// var LockSchema = new mongoSchema({
-//   hasLock: {
-//     type: Boolean,
-//     required: false
-//   },
-//   LockID: {
-//     type: String,
-//     required: false
-//   }
-// });
+
+var lockLogSchema = new mongoSchema({
+  lockTime: {
+    type: Date,
+  },
+  updated: {
+    type: Date,
+    default: Date.now
+   },
+     name:{
+       type: String,
+       required : true
+     }
+})
 
 UserSchema.pre('save', function (next) {
     var user = this;
