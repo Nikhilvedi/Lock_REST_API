@@ -47,7 +47,8 @@ exec('ssh pi@192.168.1.161 sudo python /home/pi/unlock.py', (e, stdout, stderr)=
     //throw err;
     if(e) {
         console.log(req.body.name + " unlock failed at " + now + " due to " + e);
-      return res.status(500).send({
+        //504 is timeout
+      return res.status(504).json({
                     success: false,
         message : "Error: Unable to connect to lock, please check its internet connection"});
     }
@@ -56,7 +57,7 @@ exec('ssh pi@192.168.1.161 sudo python /home/pi/unlock.py', (e, stdout, stderr)=
     console.log(req.body.name + " unlock success at " + now );
 
 
-  res.json({
+  res.status(200).json({
     success : true,
     message : "unlock successful by "+req.body.name});
 
@@ -76,7 +77,7 @@ exec('ssh pi@192.168.1.161 sudo python /home/pi/lock.py', (e, stdout, stderr)=> 
     //throw err;
     if(e) {
         console.log(req.body.name + " lock failed at " + now + " due to " + e);
-      return res.status(500).send({
+      return res.status(504).json({
                     success: false,
         message : "Error: Unable to connect to lock, please check its internet connection"});
     }
@@ -85,7 +86,7 @@ exec('ssh pi@192.168.1.161 sudo python /home/pi/lock.py', (e, stdout, stderr)=> 
     console.log(req.body.name + " lock success at " + now );
 
 
-  res.json({
+  res.status(200).json({
     success : true,
     message : "lock successful by "+req.body.name});
 

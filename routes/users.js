@@ -24,19 +24,19 @@ var config  = require('../config/database'); // get db config file
     console.log('create new user: ' + db);
     db.save(function(err) {
       if (err) {
-        return res.status(500).send({
+        return res.status(500).json({
                       success: false,
-                      message: 'Email already exists.'
+                      message: 'Email already exists, Please try again.'
                     });
     }
-      res.json({success: true,
+      res.status(200).json({success: true,
          message: 'Successfully created new user.'});
     });
   }
 });
 
 // authenticate said user
-//not sure if this should be put or post, PUT breaks it in swift
+
 router.post('/authenticate', function(req, res) {
 
   // find the user
@@ -49,7 +49,7 @@ router.post('/authenticate', function(req, res) {
   console.log(req.body.password);
 //console.log(user.LockID);
     if (!user) {
-      res.json({ success: false,
+      res.status(400).json({ success: false,
         message: 'Authentication failed. User not found.' });
 
     } else if (user) {
@@ -64,7 +64,7 @@ router.post('/authenticate', function(req, res) {
                 expiresIn: '1h' // expires in 1 hour
              });
           // return the information including token as JSON
-        res.json({
+      res.status(200).json({
           success: true,
           message: 'Enjoy your token!',
           token: token,
@@ -75,16 +75,16 @@ router.post('/authenticate', function(req, res) {
   });
 }
 });
-
-//  console.log(name);
 });
 
+//not sure if this should be put or post, PUT breaks it in swift
 router.route('/returnLockID').post(function(req, res){
 mongoOp.findOne({
        name: req.body.name
     }, function(err, user) {    if(err) {
-        response = {"success" : true,"message" : "Error fetching data"};
-        res.json(response);
+        response = {"success" : false,
+        "message" : "Error fetching data"};
+        res.status(400).json(response);
     } else {
     // we got data from Mongo.
     // change it accordingly.
@@ -94,14 +94,14 @@ mongoOp.findOne({
       //  save the data
         user.save(function(err){
             if(err) {
-              return res.status(500).send({
+              return res.status(400).send({
                             success: false,
                 message : "Error updating data"});
             } else {
                 response = {success : true,
                 message : "Data is updated for "+req.body.name};
             }
-              res.json(response);
+              res.status(201).json(response);
               console.log(req.body.LockID);
         })
       }
@@ -124,7 +124,7 @@ router.use(function(req, res, next) {
     jwt.verify(token, config.secret, function(err, decoded) {
       if (err) {
         console.log(err);
-        return res.json({ success: false,
+        return res.status(401).json({ success: false,
            message: 'Failed to authenticate token.' });
       } else {
         // if everything is good, save to request for use in other routes
@@ -135,8 +135,7 @@ router.use(function(req, res, next) {
 
   } else {
     // if there is no token return an error
-
-    return res.status(403).send({
+    return res.status(401).send({
         success: false,
         message: 'No token provided.'
     });
@@ -156,7 +155,6 @@ router.route("/all").get(function(req,res){
             res.json(response);
         });
     })
-
 
     //this isnt working correctly i dont think
 //get by id using GET http://localhost:3000/users/id
