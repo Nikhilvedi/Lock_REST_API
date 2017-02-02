@@ -17,10 +17,11 @@ router.route("/").post(function(req, res) {
             message: 'Please pass Email and Password.'
         });
     } else {
-        var db = new mongoOp({
+        var db = new mongoOp.userLogin({
             name: req.body.name,
             password: req.body.password,
-            LockID: req.body.LockID
+            LockID: req.body.LockID,
+            firstname: req.body.firstname
         });
         // save the user
         console.log('create new user: ' + db);
@@ -44,7 +45,7 @@ router.route("/").post(function(req, res) {
 router.post('/authenticate', function(req, res) {
 
     // find the user
-    mongoOp.findOne({
+    mongoOp.userLogin.findOne({
         name: req.body.name
     }, function(err, user) {
 
@@ -85,7 +86,7 @@ router.post('/authenticate', function(req, res) {
 
 //not sure if this should be put or post, PUT breaks it in swift
 router.route('/returnLockID').post(function(req, res) {
-    mongoOp.findOne({
+    mongoOp.userLogin.findOne({
         name: req.body.name
     }, function(err, user) {
         if (err) {
@@ -98,7 +99,7 @@ router.route('/returnLockID').post(function(req, res) {
             // we got data from Mongo.
             // change it accordingly.
             if (req.body.LockID !== undefined) {
-                // case where email needs to be updated.
+                //case where lock needs to be updated
                 user.LockID = req.body.LockID;
                 //  save the data
                 user.save(function(err) {
@@ -121,7 +122,6 @@ router.route('/returnLockID').post(function(req, res) {
     })
 });
 
-
 // use the token in all further requests
 
 router.use(function(req, res, next) {
@@ -131,7 +131,6 @@ router.use(function(req, res, next) {
 
     // decode token
     if (token) {
-
         // verifies secret and checks exp
         jwt.verify(token, config.secret, function(err, decoded) {
             if (err) {
@@ -146,42 +145,43 @@ router.use(function(req, res, next) {
                 next();
             }
         });
-
     } else {
         // if there is no token return an error
         return res.status(401).send({
             success: false,
             message: 'No token provided.'
         });
-
     }
 });
 
 router.route("/all").get(function(req, res) {
     var response = {};
-    mongoOp.find({}, function(err, data) {
+    mongoOp.userLogin.find({}, function(err, data) {
         // Mongo command to fetch all data from collection.
         if (err) {
             response = {
-                "error": true,
-                "message": "Error fetching data"
+                success : false,
+                message: "Error fetching data"
             };
         } else {
             response = {
-                "error": false,
-                "message": data
+                 success : true,
+                message: data
             };
         }
         res.json(response);
     });
 })
 
+
+//below here not coded fully
+
 //this isnt working correctly i dont think
 //get by id using GET http://localhost:3000/users/id
 router.route("/:id")
     .get(function(req, res) {
         var response = {};
-        mongoOp.findById(req.params.id, function(err, data) {
+        mongoOp.userLogin.findById(req.params.id, function(err, data) {
             // This will run Mongo Query to fetch data based on ID.
             if (err) {
                 response = {
@@ -197,15 +197,15 @@ router.route("/:id")
             res.json(response);
         });
     })
-    //not sure if the below works atm
 
+    //not sure if the below works atm
 
     //update data of a user
     .put(function(req, res) {
         var response = {};
         // first find out record exists or not
         // if it does then update the record
-        mongoOp.findById(req.params.id, function(err, data) {
+        mongoOp.userLogin.findById(req.params.id, function(err, data) {
             if (err) {
                 response = {
                     "error": true,
@@ -245,7 +245,7 @@ router.route("/:id")
     .delete(function(req, res) {
         var response = {};
         // find the data
-        mongoOp.findById(req.params.id, function(err, data) {
+        mongoOp.userLogin.findById(req.params.id, function(err, data) {
             if (err) {
                 response = {
                     "error": true,
@@ -253,7 +253,7 @@ router.route("/:id")
                 };
             } else {
                 // data exists, remove it.
-                mongoOp.remove({
+                mongoOp.userLogin.remove({
                     _id: req.params.id
                 }, function(err) {
                     if (err) {
@@ -272,8 +272,5 @@ router.route("/:id")
             }
         });
     })
-
-
-
 
 module.exports = router;
