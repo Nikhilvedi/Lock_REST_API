@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//for webpages 
+//for webpages
 // app.get('/javascript/jquery.min.js', function(req, res) {
 //     res.sendFile(__dirname + "/javascript" + "/jquery.min.js");
 //

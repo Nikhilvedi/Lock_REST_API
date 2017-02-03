@@ -38,7 +38,7 @@ router.use(bodyParser.json());
 //could maybe get the ssh working by sending the IP up from the app in future
 
 router.post('/unLock', function(req, res) {
-    var now = moment().toDate();
+    var now = moment().format('LLL');
     var ID = req.body.LockID;
     //print to console when the lock is being operated
     //work out how to save this date info in mongo for lookup on the app
@@ -86,7 +86,7 @@ router.post('/unLock', function(req, res) {
 });
 
 router.post('/Lock', function(req, res) {
-    var now = moment().toDate();
+    var now = moment().format('LLL'); //updating date format
     var ID = req.body.LockID;
     //print to console when the lock is being operated
     //work out how to save this date info in mongo for lookup on the app
