@@ -68,7 +68,7 @@ router.post('/authenticate', function(req, res) {
                     // if user is found and password is right create a token
                     //    var token = jwt.encode(user, config.secret); - old way
                     var token = jwt.sign(user, config.secret, {
-                        expiresIn: '600' // expires in 10 minutes
+                        expiresIn: '120000' // expires in 2 minutes - 60000 is 60s - measured in ms
                     });
                     // return the information including token as JSON
                     res.status(200).json({
@@ -133,11 +133,12 @@ router.use(function(req, res, next) {
     if (token) {
         // verifies secret and checks exp
         jwt.verify(token, config.secret, function(err, decoded) {
-            if (err) {
+            if (err instanceof Error) {
+
                 console.log(err);
                 return res.status(401).json({
                     success: false,
-                    message: 'Failed to authenticate token.'
+                    message: 'Failed to authenticate token - Expired.'
                 });
             } else {
                 // if everything is good, save to request for use in other routes
@@ -172,6 +173,28 @@ router.route("/all").get(function(req, res) {
         res.json(response);
     });
 })
+
+router.route("/tokencheck").get(function(req, res) {
+  mongoOp.userLogin.findOne({
+      name: req.body.name
+  }, function(err, user) {
+      if (err) {
+          response = {
+              "success": false,
+              "message": "Error fetching data"
+          };
+          res.status(400).json(response);
+      } else {
+        response = {
+            "success": true,
+            "message": "fetching data"
+        };
+        res.status(200).json(response)
+      }
+    });
+
+})
+
 
 
 //below here not coded fully
