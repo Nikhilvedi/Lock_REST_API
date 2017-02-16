@@ -79,6 +79,10 @@ router.post('/authenticate', function(req, res) {
                         //  token
                     });
                 }
+                else   res.status(401).json({
+                      success: false,
+                      Message : "Incorrect password"
+                    });
             });
         }
     });
@@ -134,8 +138,7 @@ router.use(function(req, res, next) {
         // verifies secret and checks exp
         jwt.verify(token, config.secret, function(err, decoded) {
             if (err instanceof Error) {
-
-                console.log(err);
+              //  console.log(err);
                 return res.status(401).json({
                     success: false,
                     message: 'Failed to authenticate token - Expired.'
@@ -179,21 +182,20 @@ router.route("/tokencheck").get(function(req, res) {
       name: req.body.name
   }, function(err, user) {
       if (err) {
-          response = {
+          res.status(400).json({
               "success": false,
               "message": "Error fetching data"
-          };
-          res.status(400).json(response);
+          });
       } else {
         response = {
             "success": true,
-            "message": "fetching data"
+            "message": "token valid"
         };
         res.status(200).json(response)
-      }
+      };
     });
-
 })
+
 
 
 
