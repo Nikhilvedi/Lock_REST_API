@@ -37,6 +37,7 @@ router.use(bodyParser.json());
 
 //could maybe get the ssh working by sending the IP up from the app in future
 
+
 router.post('/unLock', function(req, res) {
     var now = moment().format('LLL');
     var ID = req.body.LockID;
@@ -133,6 +134,27 @@ router.post('/Lock', function(req, res) {
 });
 
 router.post('/Logs', function(req, res) {
+  mongoOp.Logs.find({
+    //  name: req.body.name,
+      ID: req.body.LockID
+  }, function(err, data) {
+      if (err) {
+          response = {
+              "success": false,
+              "message": "Error fetching data, check connection"
+          };
+          res.status(400).json(response);
+      } else {
+        response = {
+             success : true,
+            message: data
+        };
+  res.json(response);
+}
+})
+});
+//make this send back only the latest lock status 
+router.post('/Status', function(req, res) {
   mongoOp.Logs.find({
     //  name: req.body.name,
       ID: req.body.LockID
