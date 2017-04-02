@@ -8,12 +8,6 @@ var mongoOp = require("../model/mongo");
 var router = express.Router();
 var app = express();
 
-//needed to be able to run child_proccess in browser
-// app.get('/javascript/jquery.min.js', function(req, res) {
-//     res.sendFile(__dirname + "/javascript" + "/jquery.min.js");
-//
-// });
-
 router.get('/', function(req, res) {
     res.render('index', {
         title: 'Home'
@@ -36,7 +30,6 @@ router.use(bodyParser.urlencoded({
 router.use(bodyParser.json());
 
 //could maybe get the ssh working by sending the IP up from the app in future
-
 
 router.post('/unLock', function(req, res) {
     var now = moment().format('LLL');
@@ -153,7 +146,7 @@ router.post('/Logs', function(req, res) {
 }
 })
 });
-//make this send back only the latest lock status 
+//make this send back only the latest lock status
 router.post('/Status', function(req, res) {
   mongoOp.Logs.find({
     //  name: req.body.name,

@@ -4,11 +4,6 @@ var mongoOp = require("../model/mongo");
 var jwt = require('jsonwebtoken');
 var config = require('../config/database'); // get db config file
 
-/* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
-
 // creating a user
 router.route("/").post(function(req, res) {
     if (!req.body.name || !req.body.password) {
@@ -240,70 +235,6 @@ router.route("/tokencheck").get(function(req, res) {
 
 //below here not coded fully
 
-//this isnt working correctly i dont think
-//get by id using GET http://localhost:3000/users/id
-// router.route("/:id")
-//     .get(function(req, res) {
-//         var response = {};
-//         mongoOp.userLogin.findById(req.params.id, function(err, data) {
-//             // This will run Mongo Query to fetch data based on ID.
-//             if (err) {
-//                 response = {
-//                     "error": true,
-//                     "message": "Error fetching data"
-//                 };
-//             } else {
-//                 response = {
-//                     "error": false,
-//                     "message": data
-//                 };
-//             }
-//             res.json(response);
-//         });
-//     })
-//
-//     //not sure if the below works atm
-//
-//     //update data of a user
-//     .put(function(req, res) {
-//         var response = {};
-//         // first find out record exists or not
-//         // if it does then update the record
-//         mongoOp.userLogin.findById(req.params.id, function(err, data) {
-//             if (err) {
-//                 response = {
-//                     "error": true,
-//                     "message": "Error fetching data"
-//                 };
-//             } else {
-//                 // we got data from Mongo.
-//                 // change it accordingly.
-//                 if (req.body.userEmail !== undefined) {
-//                     // case where email needs to be updated.
-//                     data.userEmail = req.body.userEmail;
-//                 }
-//                 if (req.body.userPassword !== undefined) {
-//                     // case where password needs to be updated
-//                     data.userPassword = req.body.userPassword;
-//                 }
-//                 // save the data
-//                 data.save(function(err) {
-//                     if (err) {
-//                         response = {
-//                             "error": true,
-//                             "message": "Error updating data"
-//                         };
-//                     } else {
-//                         response = {
-//                             "error": false,
-//                             "message": "Data is updated for " + req.params.id
-//                         };
-//                     }
-//                     res.json(response);
-//                 })
-//             }
-//         });
-//     })
 //     //DELETE http://localhost:3000/users/id
 //     //delete data
 //     .delete(function(req, res) {

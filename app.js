@@ -5,16 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-  mongoose.Promise = global.Promise;
-//var router      =   express.Router();
+mongoose.Promise = global.Promise;
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-//var exec = require('child_process').execSync;
 
-//var util = require('util')
-//var mongoOp = require("./model/mongo");
-//var exec = require('child_process').exec;
 var app = express();
 
 app.use(bodyParser.json()); // to support JSON-encoded bodies
