@@ -126,6 +126,46 @@ router.route('/returnLockID').post(function(req, res) {
     })
 });
 
+//update password
+router.route("/update").post(function(req, res) {
+    // first find out record exists or not
+    // if it does then update the record
+    mongoOp.userLogin.findOne({
+        name: req.body.name
+    }, function(err, user) {
+        if (err) {
+            res.status(400).json({
+                "success": false,
+                "message": "Error fetching data"
+            });
+        } else {
+            // we got data from Mongo.
+            // change it accordingly.
+            console.log(req.body.name);
+            console.log(req.body.password);
+            if (req.body.password !== undefined) {
+                // case where password needs to be updated
+                user.password = req.body.password;
+            }
+            // save the data
+            user.save(function(err) {
+                if (err) {
+                    response = {
+                        "success": false,
+                        "message": "Error updating data"
+                    };
+                } else {
+                    response = {
+                        "success": true,
+                        "message": "Password is updated for " + req.body.name
+                    };
+                }
+                res.json(response);
+            })
+        }
+    });
+})
+
 // use the token in all further requests
 
 router.use(function(req, res, next) {
@@ -198,104 +238,103 @@ router.route("/tokencheck").get(function(req, res) {
 
 
 
-
 //below here not coded fully
 
 //this isnt working correctly i dont think
 //get by id using GET http://localhost:3000/users/id
-router.route("/:id")
-    .get(function(req, res) {
-        var response = {};
-        mongoOp.userLogin.findById(req.params.id, function(err, data) {
-            // This will run Mongo Query to fetch data based on ID.
-            if (err) {
-                response = {
-                    "error": true,
-                    "message": "Error fetching data"
-                };
-            } else {
-                response = {
-                    "error": false,
-                    "message": data
-                };
-            }
-            res.json(response);
-        });
-    })
-
-    //not sure if the below works atm
-
-    //update data of a user
-    .put(function(req, res) {
-        var response = {};
-        // first find out record exists or not
-        // if it does then update the record
-        mongoOp.userLogin.findById(req.params.id, function(err, data) {
-            if (err) {
-                response = {
-                    "error": true,
-                    "message": "Error fetching data"
-                };
-            } else {
-                // we got data from Mongo.
-                // change it accordingly.
-                if (req.body.userEmail !== undefined) {
-                    // case where email needs to be updated.
-                    data.userEmail = req.body.userEmail;
-                }
-                if (req.body.userPassword !== undefined) {
-                    // case where password needs to be updated
-                    data.userPassword = req.body.userPassword;
-                }
-                // save the data
-                data.save(function(err) {
-                    if (err) {
-                        response = {
-                            "error": true,
-                            "message": "Error updating data"
-                        };
-                    } else {
-                        response = {
-                            "error": false,
-                            "message": "Data is updated for " + req.params.id
-                        };
-                    }
-                    res.json(response);
-                })
-            }
-        });
-    })
-    //DELETE http://localhost:3000/users/id
-    //delete data
-    .delete(function(req, res) {
-        var response = {};
-        // find the data
-        mongoOp.userLogin.findById(req.params.id, function(err, data) {
-            if (err) {
-                response = {
-                    "error": true,
-                    "message": "Error fetching data"
-                };
-            } else {
-                // data exists, remove it.
-                mongoOp.userLogin.remove({
-                    _id: req.params.id
-                }, function(err) {
-                    if (err) {
-                        response = {
-                            "error": true,
-                            "message": "Error deleting data"
-                        };
-                    } else {
-                        response = {
-                            "error": true,
-                            "message": "Data associated with " + req.params.id + "is deleted"
-                        };
-                    }
-                    res.json(response);
-                });
-            }
-        });
-    })
+// router.route("/:id")
+//     .get(function(req, res) {
+//         var response = {};
+//         mongoOp.userLogin.findById(req.params.id, function(err, data) {
+//             // This will run Mongo Query to fetch data based on ID.
+//             if (err) {
+//                 response = {
+//                     "error": true,
+//                     "message": "Error fetching data"
+//                 };
+//             } else {
+//                 response = {
+//                     "error": false,
+//                     "message": data
+//                 };
+//             }
+//             res.json(response);
+//         });
+//     })
+//
+//     //not sure if the below works atm
+//
+//     //update data of a user
+//     .put(function(req, res) {
+//         var response = {};
+//         // first find out record exists or not
+//         // if it does then update the record
+//         mongoOp.userLogin.findById(req.params.id, function(err, data) {
+//             if (err) {
+//                 response = {
+//                     "error": true,
+//                     "message": "Error fetching data"
+//                 };
+//             } else {
+//                 // we got data from Mongo.
+//                 // change it accordingly.
+//                 if (req.body.userEmail !== undefined) {
+//                     // case where email needs to be updated.
+//                     data.userEmail = req.body.userEmail;
+//                 }
+//                 if (req.body.userPassword !== undefined) {
+//                     // case where password needs to be updated
+//                     data.userPassword = req.body.userPassword;
+//                 }
+//                 // save the data
+//                 data.save(function(err) {
+//                     if (err) {
+//                         response = {
+//                             "error": true,
+//                             "message": "Error updating data"
+//                         };
+//                     } else {
+//                         response = {
+//                             "error": false,
+//                             "message": "Data is updated for " + req.params.id
+//                         };
+//                     }
+//                     res.json(response);
+//                 })
+//             }
+//         });
+//     })
+//     //DELETE http://localhost:3000/users/id
+//     //delete data
+//     .delete(function(req, res) {
+//         var response = {};
+//         // find the data
+//         mongoOp.userLogin.findById(req.params.id, function(err, data) {
+//             if (err) {
+//                 response = {
+//                     "error": true,
+//                     "message": "Error fetching data"
+//                 };
+//             } else {
+//                 // data exists, remove it.
+//                 mongoOp.userLogin.remove({
+//                     _id: req.params.id
+//                 }, function(err) {
+//                     if (err) {
+//                         response = {
+//                             "error": true,
+//                             "message": "Error deleting data"
+//                         };
+//                     } else {
+//                         response = {
+//                             "error": true,
+//                             "message": "Data associated with " + req.params.id + "is deleted"
+//                         };
+//                     }
+//                     res.json(response);
+//                 });
+//             }
+//         });
+//     })
 
 module.exports = router;
