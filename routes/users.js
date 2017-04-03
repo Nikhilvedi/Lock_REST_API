@@ -1,3 +1,10 @@
+/**
+* @class users
+* @classdesc This class handles the users and saving their data to mongoDB.
+* @summary Serving the post requests for all methods to do with users and saving the relevant data to mongoDB.
+*
+*/
+
 var express = require('express');
 var router = express.Router();
 var mongoOp = require("../model/mongo");

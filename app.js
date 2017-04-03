@@ -1,3 +1,12 @@
+/**
+* @class app.js
+* @classdesc The main server architecture and controlling class
+* @summary This class handles the importing of many different packages and modules, setting them up for use within the project
+* @version 1.0
+* @author Nikhil Vedi
+* @copyright 2017
+*/
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');

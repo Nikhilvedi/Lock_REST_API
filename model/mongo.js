@@ -1,3 +1,10 @@
+/**
+* @class mongo
+* @classdesc This class handles the set up of the mongoDB
+* @summary Holding the schema for the data being saved to mongoDB.
+* This class also takes responsibilty of hashing a users Password
+*/
+
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost:27017/lock');
 var bcrypt = require('bcrypt');

@@ -1,3 +1,10 @@
+/**
+* @class index
+* @classdesc This class handles the lock and unlock features of the server
+* @summary Serving the post requests for locking and unlocking, exposes the part of the RESTful which allows for calls to:
+* Logs, Status, Lock and Unlock
+*/
+
 var express = require('express');
 var exec = require('child_process').exec;
 var util = require('util')
