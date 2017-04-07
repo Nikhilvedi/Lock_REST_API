@@ -1,10 +1,13 @@
 /**
-* @class index
+* @class Index
 * @classdesc This class handles the lock and unlock features of the server
 * @summary Serving the post requests for locking and unlocking, exposes the part of the RESTful which allows for calls to:
 * Logs, Status, Lock and Unlock
 */
 
+/**
+* Import the relevant packages
+*/
 var express = require('express');
 var exec = require('child_process').exec;
 var util = require('util')
@@ -15,18 +18,19 @@ var mongoOp = require("../model/mongo");
 var router = express.Router();
 var app = express();
 
+/**
+* render the page to highlight where the API is
+*/
 router.get('/', function(req, res) {
     res.render('index', {
         title: 'Home'
     });
 });
 
-
 /** bodyParser.urlencoded(options)
  * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)
  * and exposes the resulting object (containing the keys and values) on req.body
  */
-
 router.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -36,8 +40,9 @@ router.use(bodyParser.urlencoded({
  */
 router.use(bodyParser.json());
 
-//could maybe get the ssh working by sending the IP up from the app in future
-
+/**
+* unlock the door and save a log of the action
+*/
 router.post('/unLock', function(req, res) {
     var now = moment().format('LLL');
     var ID = req.body.LockID;
@@ -86,6 +91,9 @@ router.post('/unLock', function(req, res) {
     });
 });
 
+/**
+* Lock the door and save a log of the action
+*/
 router.post('/Lock', function(req, res) {
     var now = moment().format('LLL'); //updating date format
     var ID = req.body.LockID;
@@ -133,6 +141,9 @@ router.post('/Lock', function(req, res) {
     });
 });
 
+/**
+* Send back all entries on the LockID
+*/
 router.post('/Logs', function(req, res) {
   mongoOp.Logs.find({
     //  name: req.body.name,
@@ -153,10 +164,12 @@ router.post('/Logs', function(req, res) {
 }
 })
 });
-//make this send back only the latest lock status
+
+/**
+* send back the lock status
+*/
 router.post('/Status', function(req, res) {
   mongoOp.Logs.find({
-    //  name: req.body.name,
       ID: req.body.LockID
   }, function(err, data) {
       if (err) {

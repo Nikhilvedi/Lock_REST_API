@@ -1,17 +1,21 @@
 /**
-* @class users
+* @class Users
 * @classdesc This class handles the users and saving their data to mongoDB.
 * @summary Serving the post requests for all methods to do with users and saving the relevant data to mongoDB.
-*
 */
 
+/**
+* Import the relevant packages
+*/
 var express = require('express');
 var router = express.Router();
 var mongoOp = require("../model/mongo");
 var jwt = require('jsonwebtoken');
 var config = require('../config/database'); // get db config file
 
-// creating a user
+/**
+* Create a user for signup
+*/
 router.route("/").post(function(req, res) {
     if (!req.body.name || !req.body.password) {
         res.json({
@@ -42,8 +46,10 @@ router.route("/").post(function(req, res) {
     }
 });
 
-// authenticate said user
 
+/**
+* Authenticate a user and return them a token
+*/
 router.post('/authenticate', function(req, res) {
 
     // find the user
@@ -68,7 +74,6 @@ router.post('/authenticate', function(req, res) {
             user.comparePassword(req.body.password, function(err, isMatch) {
                 if (isMatch && !err) {
                     // if user is found and password is right create a token
-                    //    var token = jwt.encode(user, config.secret); - old way
                     var token = jwt.sign(user, config.secret, {
                         expiresIn: '120000' // expires in 2 minutes - 60000 is 60s - measured in ms
                     });
@@ -78,7 +83,6 @@ router.post('/authenticate', function(req, res) {
                         message: 'Enjoy your token!',
                         token: token,
                         LockID: user.LockID
-                        //  token
                     });
                 }
                 else   res.status(401).json({
@@ -90,7 +94,9 @@ router.post('/authenticate', function(req, res) {
     });
 });
 
-//not sure if this should be put or post, PUT breaks it in swift
+/**
+* Update or save a lockID
+*/
 router.route('/returnLockID').post(function(req, res) {
     mongoOp.userLogin.findOne({
         name: req.body.name
@@ -128,7 +134,9 @@ router.route('/returnLockID').post(function(req, res) {
     })
 });
 
-//update password
+/**
+* Update a users password
+*/
 router.route("/update").post(function(req, res) {
     // first find out record exists or not
     // if it does then update the record
@@ -168,8 +176,10 @@ router.route("/update").post(function(req, res) {
     });
 })
 
-// use the token in all further requests
 
+/**
+* Use the token in all further requests
+*/
 router.use(function(req, res, next) {
 
     // check header or url parameters or post parameters for token
@@ -200,6 +210,9 @@ router.use(function(req, res, next) {
     }
 });
 
+/**
+* Fetch all data, used for debugging and testing purposes
+*/
 router.route("/all").get(function(req, res) {
     var response = {};
     mongoOp.userLogin.find({}, function(err, data) {
@@ -219,6 +232,9 @@ router.route("/all").get(function(req, res) {
     });
 })
 
+/**
+* Check if a users token is valid
+*/
 router.route("/tokencheck").get(function(req, res) {
   mongoOp.userLogin.findOne({
       name: req.body.name
@@ -238,41 +254,5 @@ router.route("/tokencheck").get(function(req, res) {
     });
 })
 
-
-
-//below here not coded fully
-
-//     //DELETE http://localhost:3000/users/id
-//     //delete data
-//     .delete(function(req, res) {
-//         var response = {};
-//         // find the data
-//         mongoOp.userLogin.findById(req.params.id, function(err, data) {
-//             if (err) {
-//                 response = {
-//                     "error": true,
-//                     "message": "Error fetching data"
-//                 };
-//             } else {
-//                 // data exists, remove it.
-//                 mongoOp.userLogin.remove({
-//                     _id: req.params.id
-//                 }, function(err) {
-//                     if (err) {
-//                         response = {
-//                             "error": true,
-//                             "message": "Error deleting data"
-//                         };
-//                     } else {
-//                         response = {
-//                             "error": true,
-//                             "message": "Data associated with " + req.params.id + "is deleted"
-//                         };
-//                     }
-//                     res.json(response);
-//                 });
-//             }
-//         });
-//     })
 
 module.exports = router;
