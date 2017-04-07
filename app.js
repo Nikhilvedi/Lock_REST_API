@@ -8,7 +8,7 @@
 */
 
 /**
- * Import the relevant packages
+ *  Import the relevant packages
  */
 var express = require('express');
 var path = require('path');
@@ -19,7 +19,7 @@ var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 /**
- * Plug in promises library as Mongoose promises are depreciated
+ *  Plug in promises library as Mongoose promises are depreciated
  */
 mongoose.Promise = global.Promise;
 
@@ -30,12 +30,12 @@ var users = require('./routes/users');
 var app = express();
 
 /**
-* To support JSON-encoded bodies
+*  To support JSON-encoded bodies
 */
 app.use(bodyParser.json());
 
 /**
-* To support URL-encoded bodies
+*  To support URL-encoded bodies
 */
 app.use(bodyParser.urlencoded({
     extended: true
@@ -64,7 +64,7 @@ app.use('/', index);
 app.use('/users', users);
 
 /**
-* catch 404 and forward to error handler
+*  catch 404 and forward to error handler
 */
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
