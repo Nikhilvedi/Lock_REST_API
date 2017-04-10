@@ -12,18 +12,18 @@ are part of my Final Year Project, BSc Computer Science at Sheffield Hallam Univ
 ## Code Quality and Comments
 
 * Documentation via JSDoc has been generated which is included in the repository.
-* This can be downloaded and viewed by navigating to the 'jsdocumentation' folder and browsing the HTML files.
-* See comments within code for more information on implementation and justification.
+* This can be downloaded and viewed by navigating to the 'docs' folder and browsing the HTML files at nikhilvedi.github.io/Lock_REST_API
+* See comments within code for more information on implementation and justification for each.
 
 ## How To Use
 
 * Follow the guide [here](https://howtonode.org/how-to-install-nodejs) to install Node on your opperating system.
 * Clone the project
 * Navigate to the project in terminal or CMD
-* Run 'npm install --save' - you may need to run this command as root user (sudo)
-* Before you can run the server, you'll need to go to the index.js file and replace the command calling the pi with either your PIs IP 'ls' on mac to just test the server and get a response.
+* Run 'npm install --save' - you may need to run this command as root user (sudo on mac)
+* Before you can run the server, you'll need to go to the index.js file and replace the command calling the pi with either your PIs IP or 'ls' on mac to just test the server and get successful responses from the API.
 * Back in Terminal or CMD, run 'nodemon'
-* In the browser navigate to 'http://localhost:3000/' and receive the API specification
+* In the browser navigate to 'http://localhost:3000/' and receive the API specification for connecting too
 
 ## Testing 
 
