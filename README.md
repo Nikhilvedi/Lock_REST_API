@@ -25,6 +25,10 @@ are part of my Final Year Project, BSc Computer Science at Sheffield Hallam Univ
 * Back in Terminal or CMD, run 'nodemon'
 * In the browser navigate to 'http://localhost:3000/' and receive the API specification
 
+## Testing 
+
+* Run 'npm test' to run the tests in command line
+* Run 'istanbul cover test.js' to see the coverage report in HTML format
 
 ## License
 
