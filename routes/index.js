@@ -52,6 +52,7 @@ router.post('/unLock', function(req, res) {
     // ip when conected to mac via ethernet is 192.168.2.2
     //changed to ls to demo it working without the lock on the network
     //ssh pi@192.168.1.161 sudo python /home/pi/unlock.py
+    //ssh pi@192.168.1.162 sudo python /home/pi/unlock.py
     exec('ls', (e, stdout, stderr) => {
         if (e instanceof Error) {
 
@@ -102,7 +103,8 @@ router.post('/Lock', function(req, res) {
     console.log(req.body.name + " lock attempt on LockID: " + req.body.LockID + " at " + now);
     // ip when conected to mac via ethernet is 192.168.2.2
     //changed to ls to demo it working without the lock on the network
-    //ssh pi@192.168.1.161 sudo python /home/pi/lock.py
+    //ssh pi@192.168.1.162 sudo python /home/pi/lock.py
+    //ssh pi@192.168.1.162 sudo python /home/pi/lock.py
     exec('ls', (e, stdout, stderr) => {
         if (e instanceof Error) {
 
@@ -146,7 +148,6 @@ router.post('/Lock', function(req, res) {
 */
 router.post('/Logs', function(req, res) {
   mongoOp.Logs.find({
-    //  name: req.body.name,
       ID: req.body.LockID
   }, function(err, data) {
       if (err) {
@@ -184,6 +185,7 @@ router.post('/Status', function(req, res) {
             message: data
         };
   res.json(response);
+  console.log(response);
 }
 })
 });
