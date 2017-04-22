@@ -47,13 +47,12 @@ router.post('/unLock', function(req, res) {
     var now = moment().format('LLL');
     var ID = req.body.LockID;
     //print to console when the lock is being operated
-    //work out how to save this date info in mongo for lookup on the app
     console.log(req.body.name + " unlock attempt on LockID: " + req.body.LockID + " at " + now);
     // ip when conected to mac via ethernet is 192.168.2.2
-    //changed to ls to demo it working without the lock on the network
+    //change to ls to demo it working without the lock on the network
     //ssh pi@192.168.1.161 sudo python /home/pi/unlock.py
-    //ssh pi@192.168.1.162 sudo python /home/pi/unlock.py
-    exec('ls', (e, stdout, stderr) => {
+    //
+    exec('ssh pi@192.168.1.163 sudo python /home/pi/unlock.py', (e, stdout, stderr) => {
         if (e instanceof Error) {
 
             if (e) {
@@ -99,13 +98,12 @@ router.post('/Lock', function(req, res) {
     var now = moment().format('LLL'); //updating date format
     var ID = req.body.LockID;
     //print to console when the lock is being operated
-    //work out how to save this date info in mongo for lookup on the app
     console.log(req.body.name + " lock attempt on LockID: " + req.body.LockID + " at " + now);
     // ip when conected to mac via ethernet is 192.168.2.2
-    //changed to ls to demo it working without the lock on the network
+    //change to ls to demo it working without the lock on the network
     //ssh pi@192.168.1.162 sudo python /home/pi/lock.py
-    //ssh pi@192.168.1.162 sudo python /home/pi/lock.py
-    exec('ls', (e, stdout, stderr) => {
+    //
+    exec('ssh pi@192.168.1.163 sudo python /home/pi/lock.py', (e, stdout, stderr) => {
         if (e instanceof Error) {
 
             if (e) {

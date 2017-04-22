@@ -90,14 +90,11 @@ UserSchema.methods.comparePassword = function(passw, cb) {
     });
 };
 
-//why does this have to be this way round? was saving in the wrong collection if userLogin was above UserLog
-// create model if not exists.
-//logs doesnt work atm
 
 var Logs = mongoose.model('Logs', LockLogSchema);
 var userLogin = mongoose.model('userLogin', UserSchema);
 
-//i was exporting module exports in the wrong way, this should hopefully fix it
+//export modules 
 module.exports = {
     Logs: Logs,
     userLogin: userLogin

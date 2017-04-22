@@ -17,7 +17,7 @@ are part of my Final Year Project, BSc Computer Science at Sheffield Hallam Univ
 
 ## How To Use
 
-* Follow the guide [here](https://howtonode.org/how-to-install-nodejs) to install Node on your opperating system.
+* Follow the guide [here](https://howtonode.org/how-to-install-nodejs) to install Node on your operating system.
 * Clone the project
 * Navigate to the project in terminal or CMD
 * Run 'npm install --save' - you may need to run this command as root user (sudo on mac)
@@ -25,7 +25,7 @@ are part of my Final Year Project, BSc Computer Science at Sheffield Hallam Univ
 * Back in Terminal or CMD, run 'nodemon'
 * In the browser navigate to 'http://localhost:3000/' and receive the API specification for connecting too
 
-## Testing 
+## Testing
 
 * Run 'npm test' to run the tests in command line
 * Run 'istanbul cover test.js' to see the coverage report in HTML format

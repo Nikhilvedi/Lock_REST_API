@@ -30,15 +30,3 @@ mongoose.Promise = global.Promise;
           });
       });
     });
-
-// describe('Check Lock Requests', function() {
-//   it('Check Lock Requests', function(done) {
-//   chai.request(server)
-//     .get('/Lock')
-//     .end(function(err, res){
-//       res.should.have.status(200);
-//       res.should.be.json;
-//       done();
-//     });
-// });
-// })
